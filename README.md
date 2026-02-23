@@ -27,9 +27,11 @@ Prerequisites:
 - Python 3
 
 Build steps:
-1. Initialize submodules if you haven't already:
+1. If you want to use an existing Pico SDK, export `PICO_SDK_PATH`:
+   - `export PICO_SDK_PATH=/path/to/pico-sdk`
+2. Otherwise, initialize submodules if you haven't already:
    - `git submodule update --init --recursive`
-2. Run the build script (defaults to Pico 1):
+3. Run the build script (defaults to Pico 1):
    - `./build.sh`
 
 The `.uf2` output will be created at `build/uart_bridge.uf2`.

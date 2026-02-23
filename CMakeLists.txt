@@ -2,7 +2,13 @@
 
 cmake_minimum_required(VERSION 3.13)
 
-include(pico-sdk/pico_sdk_init.cmake)
+if(DEFINED ENV{PICO_SDK_PATH} AND EXISTS "$ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake")
+	include($ENV{PICO_SDK_PATH}/external/pico_sdk_import.cmake)
+elseif(EXISTS "${CMAKE_CURRENT_LIST_DIR}/pico-sdk/external/pico_sdk_import.cmake")
+	include(${CMAKE_CURRENT_LIST_DIR}/pico-sdk/external/pico_sdk_import.cmake)
+else()
+	message(FATAL_ERROR "Unable to locate Pico SDK. Set PICO_SDK_PATH or initialize the pico-sdk submodule.")
+endif()
 
 project(pico_uart_bridge)
 
@@ -16,7 +22,7 @@ add_executable(uart_bridge uart-bridge.c usb-descriptors.c)
 
 target_include_directories(uart_bridge PUBLIC
 	./
-	pico-sdk/lib/tinyusb/src)
+	${PICO_SDK_PATH}/lib/tinyusb/src)
 
 target_link_libraries(uart_bridge
 	hardware_flash
